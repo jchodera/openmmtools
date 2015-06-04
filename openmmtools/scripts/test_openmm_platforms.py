@@ -227,7 +227,7 @@ def get_all_subclasses(cls):
        List of all subclasses of `cls`.
 
     """
-       
+
     all_subclasses = []
 
     for subclass in cls.__subclasses__():
@@ -242,6 +242,7 @@ def get_all_subclasses(cls):
 
 def main():
     import doctest
+
 
     debug = False # Don't display extra debug information.
 
@@ -278,6 +279,8 @@ def main():
 
         testsystem = testsystem_class()
         [system, positions] = [testsystem.system, testsystem.positions]
+
+
         [reference_potential, reference_force] = compute_potential_and_force(system, positions, reference_platform)
 
         # Test all platforms.
@@ -352,7 +355,6 @@ def main():
             xml_file.write(state_xml)
             xml_file.close()
 
-            
             # Place forces into different force groups.
             forces = [ system.getForce(force_index) for force_index in range(system.getNumForces()) ]
             force_group_names = dict()
@@ -385,7 +387,7 @@ def main():
                     try:
                         platform = openmm.Platform.getPlatform(platform_index)
                         platform_name = platform.getName()
-                        
+
                         # Define precision models to test.
                         if platform_name == 'Reference':
                             precision_models = ['double']
@@ -400,7 +402,7 @@ def main():
                                 platform.setPropertyDefaultValue('CudaPrecision', precision_model)
                             if platform_name == 'OpenCL':
                                 platform.setPropertyDefaultValue('OpenCLPrecision', precision_model)
-                                
+
                             # Compute potential and force.
                             [platform_potential, platform_force] = compute_potential_and_force_by_force_group(system, positions, platform, force_group)
 
