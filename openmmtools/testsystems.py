@@ -2988,51 +2988,6 @@ class AlanineDipeptideExplicit(TestSystem):
         system.setDefaultPeriodicBoxVectors(box_vectors[0], box_vectors[1], box_vectors[2])
 
         self.system, self.positions = system, positions
-
-
-#=============================================================================================
-# Toluene in vacuum.
-#=============================================================================================
-
-
-class TolueneVacuum(TestSystem):
-
-    """Toluene GAFF/AM1-BCC in vacuum.
-
-    Parameters
-    ----------
-    constraints : optional, default=simtk.openmm.app.HBonds
-    hydrogenMass : unit, optional, default=None
-        If set, will pass along a modified hydrogen mass for OpenMM to
-        use mass repartitioning.
-
-    Examples
-    --------
-
-    Create a toluene molecule with constraints on bonds to hydrogen
-    >>> testsystem = TolueneVacuum()
-    >>> [system, positions, topology] = [testsystem.system, testsystem.positions, testsystem.topology]
-    """
-
-    def __init__(self, constraints=app.HBonds, hydrogenMass=None, **kwargs):
-
-        TestSystem.__init__(self, **kwargs)
-
-        prmtop_filename = get_data_filename("data/benzene-toluene-implicit/solvent.prmtop")
-        inpcrd_filename = get_data_filename("data/benzene-toluene-implicit/solvent.inpcrd")
-
-        prmtop = app.AmberPrmtopFile(prmtop_filename)
-        system = prmtop.createSystem(implicitSolvent=None, constraints=constraints, nonbondedCutoff=None, hydrogenMass=hydrogenMass)
-
-        # Extract topology
-        self.topology = prmtop.topology
-
-        # Read positions.
-        inpcrd = app.AmberInpcrdFile(inpcrd_filename)
-        positions = inpcrd.getPositions(asNumpy=True)
-
-        self.system, self.positions = system, positions
-
 #=============================================================================================
 # Alanine dipeptide in explicit solvent
 #=============================================================================================
